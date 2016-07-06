@@ -5,6 +5,8 @@ import (
 	"os/signal"
 	"syscall"
 
+	builder "github.com/ajityagaty/go-kairosdb/builder"
+	client "github.com/ajityagaty/go-kairosdb/client"
 	"github.com/gogo/protobuf/proto"
 	_ "github.com/lib/pq"
 	"github.com/nsqio/go-nsq"
@@ -20,7 +22,7 @@ func main() {
 	viper.SetEnvPrefix("metricks")
 	viper.AutomaticEnv()
 
-	viper.SetDefault("log_level", "info")
+	viper.SetDefault("log_level", "debug")
 	logLevelStr := viper.GetString("log_level")
 	logLevel, err := log.ParseLevel(logLevelStr)
 	if err != nil {
@@ -49,6 +51,7 @@ func main() {
 		log.WithError(err).Fatal("Failed to create consumer.")
 	}
 
+	cli := client.NewHttpClient("http://172.30.35.35:4242")
 	consumer.AddHandler(func(msg *nsq.Message) error {
 		result := &schema.CheckResult{}
 		if err := proto.Unmarshal(msg.Body, result); err != nil {
@@ -66,6 +69,21 @@ func main() {
 			logger.Error("Received invalid check result.")
 			return nil
 		}
+
+		logger.Debugf("check result: %v", result)
+
+		// throw this shit into kairosdb with javago
+		mb := builder.NewMetricBuilder()
+
+		// Add a metric along with tags and datapoints.
+		mb.AddMetric("latency").
+			AddDataPoint(1, int64(304)).
+			AddTag("check", result.CheckId).
+			AddTag("customer", result.CustomerId)
+
+		// Get an instance of the http client
+		pushResp, _ := cli.PushMetrics(mb)
+		logger.Debugf("response: %v", pushResp)
 
 		return nil
 	})
