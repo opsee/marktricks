@@ -51,7 +51,7 @@ func main() {
 		log.WithError(err).Fatal("Failed to create consumer.")
 	}
 
-	cli := client.NewHttpClient("http://172.30.35.35:4242")
+	cli := client.NewHttpClient("http://172.30.35.35:8080")
 	consumer.AddHandler(func(msg *nsq.Message) error {
 		result := &schema.CheckResult{}
 		if err := proto.Unmarshal(msg.Body, result); err != nil {
@@ -70,20 +70,28 @@ func main() {
 			return nil
 		}
 
-		logger.Debugf("check result: %v", result)
-
-		// throw this shit into kairosdb with javago
 		mb := builder.NewMetricBuilder()
-
-		// Add a metric along with tags and datapoints.
-		mb.AddMetric("latency").
-			AddDataPoint(1, int64(304)).
-			AddTag("check", result.CheckId).
-			AddTag("customer", result.CustomerId)
-
-		// Get an instance of the http client
-		pushResp, _ := cli.PushMetrics(mb)
-		logger.Debugf("response: %v", pushResp)
+		for _, resp := range result.Responses {
+			logger.Debugf("check reply type: %T", resp.Reply)
+			switch t := resp.Reply.(type) {
+			case *schema.CheckResponse_HttpResponse:
+				for _, m := range t.HttpResponse.Metrics {
+					switch m.Name {
+					case "request_latency":
+						mb.AddMetric("request_latency").
+							AddDataPoint(result.Timestamp.Millis(), m.Value).
+							AddTag("check", result.CheckId).
+							AddTag("customer", result.CustomerId)
+					default:
+						logger.Debugf("unsupported metric type: %s", m.Name)
+					}
+				}
+			default:
+				logger.Debugf("unsupported check type: %s", t)
+			}
+		}
+		pushResp, err := cli.PushMetrics(mb)
+		logger.Debugf("pushresp: %s, err: %v", pushResp, err)
 
 		return nil
 	})
