@@ -37,8 +37,6 @@ func main() {
 
 	maxTasks := viper.GetInt("max_tasks")
 	// in-memory cache of customerId -> bastionId
-	bastionMap := map[string]string{}
-
 	consumer, err := worker.NewConsumer(&worker.ConsumerConfig{
 		Topic:            "_.results",
 		Channel:          "kairosdb-test",
@@ -51,7 +49,6 @@ func main() {
 		log.WithError(err).Fatal("Failed to create consumer.")
 	}
 
-	nsqdHost := viper.GetString("nsqd_host")
 	consumer.AddHandler(func(msg *nsq.Message) error {
 		result := &schema.CheckResult{}
 		if err := proto.Unmarshal(msg.Body, result); err != nil {
@@ -65,7 +62,6 @@ func main() {
 			"bastion_id":  result.BastionId,
 		})
 
-		// TODO(greg): CheckResult objects should probably have a validator.
 		if result.CustomerId == "" || result.CheckId == "" {
 			logger.Error("Received invalid check result.")
 			return nil

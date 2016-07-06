@@ -12,18 +12,8 @@ all: build
 fmt:
 	@gofmt -w ./
 
-deps:
-	docker-compose stop
-	docker-compose rm -f
-	docker-compose up -d
-	docker run --link $(PROJECT)_postgresql:postgres aanand/wait
-
-migrate:
-	migrate -url $($(shell echo $(PROJECT) | tr a-z A-Z)_POSTGRES_CONN) -path ./migrations up
-
-build: deps $(APPENV)
+build: $(APPENV)
 	docker run \
-		--link $(PROJECT)_postgresql:postgresql \
 		--env-file ./$(APPENV) \
 		-e "TARGETS=linux/amd64" \
 		-e GODEBUG=netdns=cgo \
@@ -34,7 +24,6 @@ build: deps $(APPENV)
 
 run: build $(APPENV)
 	docker run \
-		--link $(PROJECT)_postgresql:postgresql \
 		--env-file ./$(APPENV) \
 		-e GODEBUG=netdns=cgo \
 		-e AWS_DEFAULT_REGION \

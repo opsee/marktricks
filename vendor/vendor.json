@@ -300,6 +300,24 @@
 			"path": "golang.org/x/net/context",
 			"revision": "242a5ff11a379ac3c9e6e481201b34057822565f",
 			"revisionTime": "2016-06-28T22:01:51Z"
+		},
+		{
+			"checksumSHA1": "8fD/im5Kwvy3JgmxulDTambmE8w=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "a408501be4d17ee978c04a618e7a1b22af058c0e",
+			"revisionTime": "2016-07-03T23:56:20Z"
+		},
+		{
+			"checksumSHA1": "93uHIq25lffEKY47PV8dBPD+XuQ=",
+			"path": "gopkg.in/fsnotify.v1",
+			"revision": "a8a77c9133d2d6fd8334f3260d06f60e8d80a5fb",
+			"revisionTime": "2016-06-29T01:11:04Z"
+		},
+		{
+			"checksumSHA1": "+OgOXBoiQ+X+C2dsAeiOHwBIEH0=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "a83829b6f1293c91addabc89d0571c246397bbf4",
+			"revisionTime": "2016-03-01T20:40:22Z"
 		}
 	],
 	"rootPath": "github.com/opsee/metricks"
