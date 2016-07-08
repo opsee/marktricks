@@ -1,1 +1,2 @@
-METRICKS_NSQLOOKUPD_ADDRS=nsqlookupd.in.opsee.com:4161
+mehtrics_NSQLOOKUPD_ADDRS=nsqlookupd.in.opsee.com:4161
+mehtrics_KAIROSDB_HOST=

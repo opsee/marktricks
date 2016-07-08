@@ -12,14 +12,14 @@ import (
 	"github.com/nsqio/go-nsq"
 	"github.com/opsee/basic/schema"
 	log "github.com/opsee/logrus"
-	"github.com/opsee/metricks/worker"
+	"github.com/opsee/mehtrics/worker"
 	"github.com/spf13/viper"
 )
 
 func init() {}
 
 func main() {
-	viper.SetEnvPrefix("metricks")
+	viper.SetEnvPrefix("mehtrics")
 	viper.AutomaticEnv()
 
 	viper.SetDefault("log_level", "debug")
@@ -51,7 +51,7 @@ func main() {
 		log.WithError(err).Fatal("Failed to create consumer.")
 	}
 
-	cli := client.NewHttpClient("http://172.30.35.35:8080")
+	cli := client.NewHttpClient("http://172.30.200.227:8080")
 	consumer.AddHandler(func(msg *nsq.Message) error {
 		result := &schema.CheckResult{}
 		if err := proto.Unmarshal(msg.Body, result); err != nil {
