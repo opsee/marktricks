@@ -1,2 +1,2 @@
-mehtrics_NSQLOOKUPD_ADDRS=nsqlookupd.in.opsee.com:4161
-mehtrics_KAIROSDB_HOST=
+MEHTRICS_NSQLOOKUPD_ADDRS=nsqlookupd.in.opsee.com:4161
+MEHTRICS_KAIROSDB_HOST="http://172.30.200.227:8080
