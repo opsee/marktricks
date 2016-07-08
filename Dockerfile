@@ -13,5 +13,4 @@ ENV APPENV ""
 COPY run.sh /
 COPY target/linux/amd64/bin/* /
 
-CMD ["/mehtrics"]
-
+CMD ["/worker"]

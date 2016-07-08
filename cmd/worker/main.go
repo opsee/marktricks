@@ -22,7 +22,7 @@ func main() {
 	viper.SetEnvPrefix("mehtrics")
 	viper.AutomaticEnv()
 
-	viper.SetDefault("log_level", "debug")
+	viper.SetDefault("log_level", "info")
 	logLevelStr := viper.GetString("log_level")
 	logLevel, err := log.ParseLevel(logLevelStr)
 	if err != nil {
@@ -72,7 +72,6 @@ func main() {
 
 		mb := builder.NewMetricBuilder()
 		for _, resp := range result.Responses {
-			logger.Debugf("check reply type: %T", resp.Reply)
 			switch t := resp.Reply.(type) {
 			case *schema.CheckResponse_HttpResponse:
 				for _, m := range t.HttpResponse.Metrics {
@@ -83,11 +82,11 @@ func main() {
 							AddTag("check", result.CheckId).
 							AddTag("customer", result.CustomerId)
 					default:
-						logger.Debugf("unsupported metric type: %s", m.Name)
+						logger.Warnf("unsupported metric type: %s", m.Name)
 					}
 				}
 			default:
-				logger.Debugf("unsupported check type: %s", t)
+				logger.Warnf("unsupported check type: %s", t)
 			}
 		}
 		pushResp, err := cli.PushMetrics(mb)
