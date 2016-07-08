@@ -22,7 +22,7 @@ func main() {
 	viper.SetEnvPrefix("mehtrics")
 	viper.AutomaticEnv()
 
-	viper.SetDefault("log_level", "info")
+	viper.SetDefault("log_level", "debug")
 	logLevelStr := viper.GetString("log_level")
 	logLevel, err := log.ParseLevel(logLevelStr)
 	if err != nil {
