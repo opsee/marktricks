@@ -41,7 +41,7 @@ func main() {
 	// in-memory cache of customerId -> bastionId
 	consumer, err := worker.NewConsumer(&worker.ConsumerConfig{
 		Topic:            "_.results",
-		Channel:          "kairosdb-test",
+		Channel:          "mehtrics-worker",
 		LookupdAddresses: viper.GetStringSlice("nsqlookupd_addrs"),
 		NSQConfig:        nsqConfig,
 		HandlerCount:     maxTasks,
@@ -82,15 +82,17 @@ func main() {
 							AddTag("check", result.CheckId).
 							AddTag("customer", result.CustomerId)
 					default:
-						logger.Warnf("unsupported metric type: %s", m.Name)
+						logger.Debugf("unsupported metric type: %s", m.Name)
 					}
 				}
 			default:
-				logger.Warnf("unsupported check type: %s", t)
+				logger.Debugf("unsupported check type: %s", t)
 			}
 		}
-		pushResp, err := cli.PushMetrics(mb)
-		logger.Debugf("pushresp: %s, err: %v", pushResp, err)
+		_, err := cli.PushMetrics(mb)
+		if err != nil {
+			log.WithError(err).Error("failed to push metrics to kairosdb")
+		}
 
 		return nil
 	})
