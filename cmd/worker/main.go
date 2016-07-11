@@ -6,8 +6,8 @@ import (
 	"syscall"
 	"time"
 
-	builder "github.com/ajityagaty/go-kairosdb/builder"
-	client "github.com/ajityagaty/go-kairosdb/client"
+	builder "github.com/dan-compton/go-kairosdb/builder"
+	client "github.com/dan-compton/go-kairosdb/client"
 	"github.com/gogo/protobuf/proto"
 	_ "github.com/lib/pq"
 	"github.com/nsqio/go-nsq"
@@ -77,10 +77,37 @@ func main() {
 				for _, m := range t.HttpResponse.Metrics {
 					switch m.Name {
 					case "request_latency":
-						mb.AddMetric("request_latency").
-							AddDataPoint(result.Timestamp.Millis(), m.Value).
-							AddTag("check", result.CheckId).
-							AddTag("customer", result.CustomerId)
+
+						if resp.Target == nil {
+							logger.Error("Nil target")
+							return nil
+						}
+						tags := map[string]string{
+							"check":       result.CheckId,
+							"customer":    result.CustomerId,
+							"target":      resp.Target.Id,
+							"target_name": resp.Target.Name,
+							"target_type": resp.Target.Type,
+							"target_addr": resp.Target.Address,
+							"region":      result.Region,
+						}
+
+						vtags := 0
+						nm := builder.NewMetric("request_latency").AddDataPoint(result.Timestamp.Millis(), m.Value)
+						for k, v := range tags {
+							if len(v) > 0 {
+								vtags += 1
+								nm.AddTag(k, v)
+							}
+						}
+
+						// no tags, disregard result
+						if vtags > 0 {
+							mb.AddRealMetric(nm)
+						} else {
+							logger.Warn("no valid tags found for metric")
+						}
+
 					default:
 						logger.Debugf("unsupported metric type: %s", m.Name)
 						return nil
@@ -88,7 +115,6 @@ func main() {
 				}
 			default:
 				logger.Debugf("unsupported check type: %s", t)
-				msg.Finish()
 				return nil
 			}
 		}
