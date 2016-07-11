@@ -22,7 +22,7 @@ func main() {
 	viper.SetEnvPrefix("mehtrics")
 	viper.AutomaticEnv()
 
-	viper.SetDefault("log_level", "info")
+	viper.SetDefault("log_level", "debug")
 	logLevelStr := viper.GetString("log_level")
 	logLevel, err := log.ParseLevel(logLevelStr)
 	if err != nil {
@@ -38,7 +38,6 @@ func main() {
 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
 
 	maxTasks := viper.GetInt("max_tasks")
-	// in-memory cache of customerId -> bastionId
 	consumer, err := worker.NewConsumer(&worker.ConsumerConfig{
 		Topic:            "_.results",
 		Channel:          "mehtrics-worker",
@@ -83,10 +82,12 @@ func main() {
 							AddTag("customer", result.CustomerId)
 					default:
 						logger.Debugf("unsupported metric type: %s", m.Name)
+						return nil
 					}
 				}
 			default:
 				logger.Debugf("unsupported check type: %s", t)
+				return nil
 			}
 		}
 		_, err := cli.PushMetrics(mb)
