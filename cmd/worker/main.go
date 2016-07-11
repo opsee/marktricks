@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	builder "github.com/ajityagaty/go-kairosdb/builder"
 	client "github.com/ajityagaty/go-kairosdb/client"
@@ -22,7 +23,7 @@ func main() {
 	viper.SetEnvPrefix("mehtrics")
 	viper.AutomaticEnv()
 
-	viper.SetDefault("log_level", "debug")
+	viper.SetDefault("log_level", "info")
 	logLevelStr := viper.GetString("log_level")
 	logLevel, err := log.ParseLevel(logLevelStr)
 	if err != nil {
@@ -87,9 +88,11 @@ func main() {
 				}
 			default:
 				logger.Debugf("unsupported check type: %s", t)
+				msg.Finish()
 				return nil
 			}
 		}
+
 		_, err := cli.PushMetrics(mb)
 		if err != nil {
 			log.WithError(err).Error("failed to push metrics to kairosdb")
@@ -101,6 +104,11 @@ func main() {
 	if err := consumer.Start(); err != nil {
 		log.WithError(err).Fatal("Failed to start consumer.")
 	}
+
+	go func() {
+		consumer.Info()
+		time.Sleep(time.Second * 10)
+	}()
 
 	<-sigChan
 

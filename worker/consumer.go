@@ -3,9 +3,9 @@ package worker
 import (
 	"time"
 
-	log "github.com/opsee/logrus"
 	"github.com/nsqio/go-nsq"
 	"github.com/opsee/basic/schema"
+	log "github.com/opsee/logrus"
 )
 
 type nsqConsumer struct {
@@ -57,6 +57,12 @@ func (c *nsqConsumer) Start() error {
 	}
 
 	return c.consumer.ConnectToNSQLookupds(c.config.LookupdAddresses)
+}
+
+func (c *nsqConsumer) Info() {
+	stats := c.consumer.Stats()
+	isStarved := c.consumer.IsStarved()
+	log.Infof("(NSQ) Received:%d, Finished:%d, Requeued:%d, Connections: %d, Starved: %t", stats.MessagesReceived, stats.MessagesFinished, stats.MessagesRequeued, stats.Connections, isStarved)
 }
 
 func (c *nsqConsumer) Stop() {
