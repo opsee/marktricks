@@ -1,5 +1,5 @@
 APPENV ?= testenv
-PROJECT := mehtrics
+PROJECT := marktricks
 GITCOMMIT := $(shell git rev-parse --short HEAD)
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 GITUNTRACKEDCHANGES := $(shell git status --porcelain --untracked-files=no)

@@ -10,7 +10,7 @@
 		cats.proto
 		checker.proto
 		keelhaul.proto
-		mehtrics.proto
+		marktricks.proto
 		spanx.proto
 
 	It has these top-level messages:

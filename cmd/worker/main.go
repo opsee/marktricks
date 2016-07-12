@@ -13,13 +13,13 @@ import (
 	"github.com/nsqio/go-nsq"
 	"github.com/opsee/basic/schema"
 	log "github.com/opsee/logrus"
-	"github.com/opsee/mehtrics/service"
-	"github.com/opsee/mehtrics/worker"
+	"github.com/opsee/marktricks/service"
+	"github.com/opsee/marktricks/worker"
 	"github.com/spf13/viper"
 )
 
 func main() {
-	viper.SetEnvPrefix("mehtrics")
+	viper.SetEnvPrefix("marktricks")
 	viper.AutomaticEnv()
 
 	viper.SetDefault("log_level", "info")
@@ -45,7 +45,7 @@ func main() {
 	maxTasks := viper.GetInt("max_tasks")
 	consumer, err := worker.NewConsumer(&worker.ConsumerConfig{
 		Topic:            "_.results",
-		Channel:          "mehtrics-worker",
+		Channel:          "marktricks-worker",
 		LookupdAddresses: viper.GetStringSlice("nsqlookupd_addrs"),
 		NSQConfig:        nsqConfig,
 		HandlerCount:     maxTasks,

@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	address = "mehtrics.in.opsee.com:9111"
+	address = "marktricks.in.opsee.com:9111"
 )
 
 func main() {

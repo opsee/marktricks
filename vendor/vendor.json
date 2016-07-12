@@ -269,50 +269,50 @@
 		{
 			"checksumSHA1": "hHr2mPYT2rKyvzsXjYdVtGCJFNM=",
 			"path": "github.com/opsee/basic/schema",
-			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
-			"revisionTime": "2016-07-12T00:05:06Z"
+			"revision": "9b4e0a8def8fbb8a2d16b7e9637e3e9d4bf4dbb5",
+			"revisionTime": "2016-07-12T21:49:53Z"
 		},
 		{
 			"checksumSHA1": "FkjxadUmA3jQE9gNzDheJ5axvyw=",
 			"path": "github.com/opsee/basic/schema/aws/autoscaling",
-			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
-			"revisionTime": "2016-07-12T00:05:06Z"
+			"revision": "9b4e0a8def8fbb8a2d16b7e9637e3e9d4bf4dbb5",
+			"revisionTime": "2016-07-12T21:49:53Z"
 		},
 		{
 			"checksumSHA1": "fySg/HSrU9fwCAsXLwt4fsm0imc=",
 			"path": "github.com/opsee/basic/schema/aws/cloudwatch",
-			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
-			"revisionTime": "2016-07-12T00:05:06Z"
+			"revision": "9b4e0a8def8fbb8a2d16b7e9637e3e9d4bf4dbb5",
+			"revisionTime": "2016-07-12T21:49:53Z"
 		},
 		{
 			"checksumSHA1": "+vaNkzRGuv1YFreB47sAf9h1xlA=",
 			"path": "github.com/opsee/basic/schema/aws/credentials",
-			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
-			"revisionTime": "2016-07-12T00:05:06Z"
+			"revision": "9b4e0a8def8fbb8a2d16b7e9637e3e9d4bf4dbb5",
+			"revisionTime": "2016-07-12T21:49:53Z"
 		},
 		{
 			"checksumSHA1": "srjU1ESiQMdYhe8RsQeIaEAF27k=",
 			"path": "github.com/opsee/basic/schema/aws/ec2",
-			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
-			"revisionTime": "2016-07-12T00:05:06Z"
+			"revision": "9b4e0a8def8fbb8a2d16b7e9637e3e9d4bf4dbb5",
+			"revisionTime": "2016-07-12T21:49:53Z"
 		},
 		{
 			"checksumSHA1": "3Vy2baXYVara8ivNlOHj8fpZcXk=",
 			"path": "github.com/opsee/basic/schema/aws/ecs",
-			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
-			"revisionTime": "2016-07-12T00:05:06Z"
+			"revision": "9b4e0a8def8fbb8a2d16b7e9637e3e9d4bf4dbb5",
+			"revisionTime": "2016-07-12T21:49:53Z"
 		},
 		{
 			"checksumSHA1": "9JoTo+10PvSF5YcdZahA35SnCUk=",
 			"path": "github.com/opsee/basic/schema/aws/elb",
-			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
-			"revisionTime": "2016-07-12T00:05:06Z"
+			"revision": "9b4e0a8def8fbb8a2d16b7e9637e3e9d4bf4dbb5",
+			"revisionTime": "2016-07-12T21:49:53Z"
 		},
 		{
 			"checksumSHA1": "lfQKxPHPkM/+3PDuhT4NnVGKUgM=",
 			"path": "github.com/opsee/basic/schema/aws/rds",
-			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
-			"revisionTime": "2016-07-12T00:05:06Z"
+			"revision": "9b4e0a8def8fbb8a2d16b7e9637e3e9d4bf4dbb5",
+			"revisionTime": "2016-07-12T21:49:53Z"
 		},
 		{
 			"checksumSHA1": "Vhk1AbpoeLjvFsrpe/YiTh6L9ao=",
@@ -491,5 +491,5 @@
 			"revisionTime": "2016-03-01T20:40:22Z"
 		}
 	],
-	"rootPath": "github.com/opsee/mehtrics"
+	"rootPath": "github.com/opsee/marktricks"
 }
