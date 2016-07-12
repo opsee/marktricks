@@ -1,6 +1,8 @@
 package main
 
 import (
+	"io"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -18,6 +20,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+func health(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "alive")
+}
+
 func main() {
 	viper.SetEnvPrefix("mehtrics")
 	viper.AutomaticEnv()
@@ -30,6 +36,12 @@ func main() {
 		logLevel = log.InfoLevel
 	}
 	log.SetLevel(logLevel)
+
+	viper.SetDefault("kairosdb_address", "http://172.30.200.227:8080")
+	viper.SetDefault("grpc_address", ":9111")
+	viper.SetDefault("health_address", ":9112")
+	kdbAddr := viper.GetString("kairosdb_address")
+	healthAddr := viper.GetString("health_addr")
 
 	nsqConfig := nsq.NewConfig()
 	nsqConfig.MaxInFlight = 4
@@ -50,7 +62,7 @@ func main() {
 		log.WithError(err).Fatal("Failed to create consumer.")
 	}
 
-	cli := client.NewHttpClient("http://172.30.200.227:8080")
+	cli := client.NewHttpClient(kdbAddr)
 	consumer.AddHandler(func(msg *nsq.Message) error {
 		result := &schema.CheckResult{}
 		if err := proto.Unmarshal(msg.Body, result); err != nil {
@@ -131,12 +143,20 @@ func main() {
 	}
 
 	go func() {
-		consumer.Info()
-		time.Sleep(time.Second * 10)
+		for {
+			consumer.Info()
+			time.Sleep(time.Second * 10)
+		}
 	}()
 
-	// TODO(dan) move this into a seperate process
-	server.NewServer(client.NewHttpClient("http://172.30.200.227:8080")).Start()
+	// dummy health for ELB
+	go func() {
+		http.HandleFunc("/health", health)
+		panic(http.ListenAndServe(healthAddr, nil))
+	}()
+
+	// grpc server for kdb queries
+	server.NewServer(client.NewHttpClient(kdbAddr)).Start()
 
 	<-sigChan
 
