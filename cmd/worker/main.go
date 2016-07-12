@@ -13,11 +13,10 @@ import (
 	"github.com/nsqio/go-nsq"
 	"github.com/opsee/basic/schema"
 	log "github.com/opsee/logrus"
+	"github.com/opsee/mehtrics/server"
 	"github.com/opsee/mehtrics/worker"
 	"github.com/spf13/viper"
 )
-
-func init() {}
 
 func main() {
 	viper.SetEnvPrefix("mehtrics")
@@ -135,6 +134,9 @@ func main() {
 		consumer.Info()
 		time.Sleep(time.Second * 10)
 	}()
+
+	// TODO(dan) move this into a seperate process
+	server.NewServer(client.NewHttpClient("http://172.30.200.227:8080")).Start()
 
 	<-sigChan
 

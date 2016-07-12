@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+import "github.com/opsee/protobuf/opseeproto/opsee.proto";
+import "github.com/opsee/protobuf/opseeproto/types/timestamp.proto";
+import "github.com/opsee/basic/schema/aws/credentials/types.proto";
+import "github.com/opsee/basic/schema/user.proto";
+import "stack.proto";
+
+package opsee;
+
+option go_package = "service";
+option (opseeproto.graphql) = true;
+
+message EnhancedCombatModeRequest {
+	User user = 1;
+}
+
+message EnhancedCombatModeResponse {
+	string stack_url = 1;
+	string template_url = 2;
+}
+
+message GetRoleStackRequest {
+	User user = 1;
+}
+
+message GetRoleStackResponse {
+	RoleStack role_stack = 1;
+}
+
+message GetCredentialsRequest {
+	User user = 1;
+}
+
+message GetCredentialsResponse {
+	aws.credentials.Value credentials = 1;
+	opsee.types.Timestamp Expires = 2;
+}
+
+service Spanx {
+	rpc EnhancedCombatMode(EnhancedCombatModeRequest) returns (EnhancedCombatModeResponse) {}
+	rpc GetRoleStack(GetRoleStackRequest) returns (GetRoleStackResponse) {}
+	rpc GetCredentials(GetCredentialsRequest) returns (GetCredentialsResponse) {}
+}

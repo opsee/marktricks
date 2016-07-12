@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+import "github.com/opsee/protobuf/opseeproto/opsee.proto";
+import "github.com/opsee/protobuf/opseeproto/types/timestamp.proto";
+import "github.com/opsee/basic/schema/aws/credentials/types.proto";
+import "github.com/opsee/basic/schema/user.proto";
+import "github.com/opsee/basic/schema/checks.proto";
+import "stack.proto";
+
+package opsee;
+
+option go_package = "service";
+option (opseeproto.graphql) = true;
+
+
+message Group {
+    string Name = 1;
+}
+
+message QueryResult {
+    repeated Metric metrics = 1;
+    repeated Group groups = 2;
+}
+
+// Array of metrics with complete metric name and optional tags
+message GetMetricsRequest {
+    User requestor = 1;
+    repeated Metric metrics = 2;
+    opsee.types.Timestamp absolute_start_time = 3; 
+    opsee.types.Timestamp absolute_end_time = 4;
+}
+
+// Array of metrics from Opsee metrics store
+message GetMetricsResponse {
+    repeated QueryResult results = 1;  
+}
+
+service Mehtrics {
+    rpc GetMetrics(GetMetricsRequest) returns (GetMetricsResponse);
+}

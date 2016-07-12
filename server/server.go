@@ -1,9 +1,7 @@
 package server
 
 import (
-	"flag"
 	"fmt"
-	"log"
 	"net"
 	"time"
 
@@ -13,14 +11,11 @@ import (
 
 	builder "github.com/dan-compton/go-kairosdb/builder"
 	client "github.com/dan-compton/go-kairosdb/client"
+	log "github.com/opsee/logrus"
 	opsee_types "github.com/opsee/protobuf/opseeproto/types"
 
 	"github.com/opsee/basic/schema"
 	pb "github.com/opsee/basic/service"
-)
-
-var (
-	port = flag.Int("port", 9111, "The server port")
 )
 
 type mehtricsServer struct {
@@ -36,7 +31,7 @@ func NewServer(kc client.Client) *mehtricsServer {
 func (s *mehtricsServer) GetMetrics(ctx context.Context, in *pb.GetMetricsRequest) (*pb.GetMetricsResponse, error) {
 	var res []*pb.QueryResult
 	// TODO(dan) support relative start and end time alternative
-	if in.AbsoluteStartTime != nil {
+	if in.AbsoluteStartTime == nil {
 		return &pb.GetMetricsResponse{Results: res}, fmt.Errorf("missing absolute_start_time")
 	}
 	if in.AbsoluteEndTime == nil {
@@ -46,8 +41,9 @@ func (s *mehtricsServer) GetMetrics(ctx context.Context, in *pb.GetMetricsReques
 	// check start and end times
 	st := in.AbsoluteStartTime.Millis()
 	et := in.AbsoluteEndTime.Millis()
-	if st < et || st < 0 || et < 0 || st == et {
-		return &pb.GetMetricsResponse{Results: res}, fmt.Errorf("invalid absolute_start time or absolute_end_time")
+	if st > et || st < 0 || et < 0 || st == et {
+		log.Warnf("Invalid start_time: %d or end_time: %d", st, et)
+		return &pb.GetMetricsResponse{Results: res}, fmt.Errorf("invalid absolute_start_time or absolute_end_time")
 	}
 	ast := time.Unix(in.AbsoluteStartTime.Millis(), 0)
 	aet := time.Unix(in.AbsoluteEndTime.Millis(), 0)
@@ -121,18 +117,20 @@ func (s *mehtricsServer) GetMetrics(ctx context.Context, in *pb.GetMetricsReques
 			break // only support one query right now
 		}
 	}
+
 	return &pb.GetMetricsResponse{
 		Results: res,
 	}, err
 }
 
 func (s *mehtricsServer) Start() {
-	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 9111))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	grpcs := grpc.NewServer()
 	pb.RegisterMehtricsServer(grpcs, s)
-	grpcs.Serve(lis)
+	go func() {
+		grpcs.Serve(lis)
+	}()
 }
