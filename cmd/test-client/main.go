@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	address = ":9111"
+	address = "mehtrics.in.opsee.com:9111"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 	c := pb.NewMehtricsClient(conn)
 
 	ts1 := &opsee_types.Timestamp{}
-	err = ts1.Scan(time.Now().UTC().Add(-5 * time.Minute))
+	err = ts1.Scan(time.Now().UTC().Add(-1 * time.Minute))
 	if err != nil {
 		log.WithError(err).Error("uh oh")
 	}

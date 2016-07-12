@@ -1,8 +1,6 @@
 package main
 
 import (
-	"io"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -15,14 +13,10 @@ import (
 	"github.com/nsqio/go-nsq"
 	"github.com/opsee/basic/schema"
 	log "github.com/opsee/logrus"
-	"github.com/opsee/mehtrics/server"
+	"github.com/opsee/mehtrics/service"
 	"github.com/opsee/mehtrics/worker"
 	"github.com/spf13/viper"
 )
-
-func health(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "alive")
-}
 
 func main() {
 	viper.SetEnvPrefix("mehtrics")
@@ -38,10 +32,9 @@ func main() {
 	log.SetLevel(logLevel)
 
 	viper.SetDefault("kairosdb_address", "http://172.30.200.227:8080")
-	viper.SetDefault("grpc_address", ":9111")
+	viper.SetDefault("address", ":9111")
 	viper.SetDefault("health_address", ":9112")
 	kdbAddr := viper.GetString("kairosdb_address")
-	healthAddr := viper.GetString("health_addr")
 
 	nsqConfig := nsq.NewConfig()
 	nsqConfig.MaxInFlight = 4
@@ -149,14 +142,14 @@ func main() {
 		}
 	}()
 
-	// dummy health for ELB
-	go func() {
-		http.HandleFunc("/health", health)
-		panic(http.ListenAndServe(healthAddr, nil))
-	}()
-
 	// grpc server for kdb queries
-	server.NewServer(client.NewHttpClient(kdbAddr)).Start()
+	svc, err := service.New(viper.GetString("kairosdb_address"))
+	if err != nil {
+		log.WithError(err).Fatal("unable to start service")
+	}
+	go func() {
+		log.WithError(svc.StartMux(viper.GetString("address"), viper.GetString("cert"), viper.GetString("cert_key"))).Fatal("Error in listener")
+	}()
 
 	<-sigChan
 

@@ -200,6 +200,13 @@
 			"revisionTime": "2016-03-18T15:40:51Z"
 		},
 		{
+			"checksumSHA1": "mZK+4q1Xr8z0AwkCAgO+7Rb8xk8=",
+			"origin": "github.com/opsee/basic/vendor/github.com/julienschmidt/httprouter",
+			"path": "github.com/julienschmidt/httprouter",
+			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
+			"revisionTime": "2016-07-12T00:05:06Z"
+		},
+		{
 			"checksumSHA1": "1YeGotQXMZMqk+mmm8sbBVJywpw=",
 			"path": "github.com/kr/pretty",
 			"revision": "e6ac2fc51e89a3249e82157fa0bb7a18ef9dd5bb",
@@ -254,6 +261,12 @@
 			"revisionTime": "2016-02-21T17:07:15Z"
 		},
 		{
+			"checksumSHA1": "JLhed1lAnZ3eAvzYte77yd3V1b4=",
+			"path": "github.com/opsee/basic/grpcutil",
+			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
+			"revisionTime": "2016-07-12T00:05:06Z"
+		},
+		{
 			"checksumSHA1": "hHr2mPYT2rKyvzsXjYdVtGCJFNM=",
 			"path": "github.com/opsee/basic/schema",
 			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
@@ -304,6 +317,12 @@
 		{
 			"checksumSHA1": "Vhk1AbpoeLjvFsrpe/YiTh6L9ao=",
 			"path": "github.com/opsee/basic/service",
+			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
+			"revisionTime": "2016-07-12T00:05:06Z"
+		},
+		{
+			"checksumSHA1": "ob2JJB8dQ4Z4nYLP7W8G4BUtIHo=",
+			"path": "github.com/opsee/basic/tp",
 			"revision": "a061b06e472341468d17ae58fcdd4beaace2d9c4",
 			"revisionTime": "2016-07-12T00:05:06Z"
 		},
