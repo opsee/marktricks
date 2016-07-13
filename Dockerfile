@@ -5,12 +5,12 @@ RUN mkdir -p /opt/bin && \
 		curl -Lo /opt/bin/s3kms https://s3-us-west-2.amazonaws.com/opsee-releases/go/vinz-clortho/s3kms-linux-amd64 && \
     chmod 755 /opt/bin/s3kms
 
-ENV MEHTRICS_NSQLOOKUPD_ADDRS ""
-ENV MEHTRICS_NSQD_HOST ""
-ENV METRICS_KAIROSDB_ADDRESS ""
-ENV METRICS_ADDRESS ""
-ENV MEHTRICS_CERT="cert.pem"
-ENV MEHTRICS_CERT_KEY="key.pem"
+ENV MARKTRICKS_NSQLOOKUPD_ADDRS ""
+ENV MARKTRICKS_NSQD_HOST ""
+ENV MARKTRICKS_KAIROSDB_ADDRESS ""
+ENV MARKTRICKS_ADDRESS ""
+ENV MARKTRICKS_CERT="cert.pem"
+ENV MARKTRICKS_CERT_KEY="key.pem"
 ENV APPENV ""
 
 COPY run.sh /
