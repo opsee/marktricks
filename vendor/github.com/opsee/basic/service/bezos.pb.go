@@ -51,6 +51,7 @@
 		AuthenticateBastionRequest
 		AuthenticateBastionResponse
 		Group
+		Aggregation
 		QueryResult
 		GetMetricsRequest
 		GetMetricsResponse
