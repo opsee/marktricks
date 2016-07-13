@@ -35,6 +35,6 @@ message GetMetricsResponse {
     repeated QueryResult results = 1;  
 }
 
-service Mehtrics {
+service Marktricks {
     rpc GetMetrics(GetMetricsRequest) returns (GetMetricsResponse);
 }

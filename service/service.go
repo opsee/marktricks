@@ -32,7 +32,7 @@ func (s *service) StartMux(addr, certfile, certkeyfile string) error {
 	router := tp.NewHTTPRouter(context.Background())
 	server := grpc.NewServer()
 
-	opsee.RegisterMehtricsServer(server, s)
+	opsee.RegisterMarktricksServer(server, s)
 	log.Infof("starting marktricks service at %s", addr)
 
 	httpServer := &http.Server{

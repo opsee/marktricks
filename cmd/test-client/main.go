@@ -22,7 +22,7 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewMehtricsClient(conn)
+	c := pb.NewMarktricksClient(conn)
 
 	ts1 := &opsee_types.Timestamp{}
 	err = ts1.Scan(time.Now().UTC().Add(-1 * time.Minute))
