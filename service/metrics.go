@@ -14,7 +14,6 @@ import (
 )
 
 func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (*opsee.GetMetricsResponse, error) {
-
 	log.Infof("received GetMetrics request: %v", in)
 	var res []*opsee.QueryResult
 	// TODO(dan) support relative start and end time alternative
@@ -94,6 +93,12 @@ func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (
 			switch m.Statistic {
 			case "avg":
 				nm.AddAggregator(builder.CreateAverageAggregator(int(agPeriod), agUnit))
+			case "sum":
+				nm.AddAggregator(builder.CreateSumAggregator(int(agPeriod), agUnit))
+			case "min":
+				nm.AddAggregator(builder.CreateMaxAggregator(int(agPeriod), agUnit))
+			case "max":
+				nm.AddAggregator(builder.CreateMinAggregator(int(agPeriod), agUnit))
 			default:
 				continue
 			}
@@ -117,7 +122,6 @@ func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (
 				// get tags to set in basicproto metric
 				var tags []*schema.Tag
 				for k, v := range result.Tags {
-					// TODO(dan) why is this a list of values?
 					if len(v) == 0 {
 						continue
 					}
