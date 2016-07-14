@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"time"
 
 	"github.com/opsee/basic/schema"
@@ -9,15 +10,25 @@ import (
 	opsee_types "github.com/opsee/protobuf/opseeproto/types"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 const (
-	address = "marktricks.in.opsee.com:9111"
+	address = ":9111"
 )
 
 func main() {
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	conn, err := grpc.Dial(
+		address,
+		grpc.WithTransportCredentials(
+			credentials.NewTLS(
+				&tls.Config{
+					InsecureSkipVerify: true,
+				}),
+		),
+	)
+
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
@@ -39,10 +50,23 @@ func main() {
 	req := &pb.GetMetricsRequest{
 		Requestor: &schema.User{},
 		Metrics: []*schema.Metric{
-			&schema.Metric{Name: "request_latency"},
+			&schema.Metric{
+				Name:      "request_latency",
+				Statistic: "avg",
+				Tags: []*schema.Tag{
+					&schema.Tag{
+						Name:  "check",
+						Value: "43L5uriBVHXAz9mutcGbRT",
+					},
+				},
+			},
 		},
 		AbsoluteStartTime: ts1,
 		AbsoluteEndTime:   ts2,
+		Aggregation: &pb.Aggregation{
+			Unit:   "seconds",
+			Period: 300,
+		},
 	}
 
 	r, err := c.GetMetrics(context.Background(), req)

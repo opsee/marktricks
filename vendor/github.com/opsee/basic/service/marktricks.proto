@@ -17,6 +17,11 @@ message Group {
     string Name = 1;
 }
 
+message Aggregation {
+    string unit = 1; // graphql doesn't support enums yet (milliseconds, seconds, minutes, hours, days, weeks, months, years)
+    int64 period = 2; 
+}
+
 message QueryResult {
     repeated Metric metrics = 1;
     repeated Group groups = 2;
@@ -28,6 +33,7 @@ message GetMetricsRequest {
     repeated Metric metrics = 2;
     opsee.types.Timestamp absolute_start_time = 3; 
     opsee.types.Timestamp absolute_end_time = 4;
+    Aggregation aggregation = 5;
 }
 
 // Array of metrics from Opsee metrics store

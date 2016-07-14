@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/dan-compton/go-kairosdb/builder"
+	kdbutil "github.com/dan-compton/go-kairosdb/builder/utils"
 	"github.com/opsee/basic/schema"
 	opsee "github.com/opsee/basic/service"
 	log "github.com/opsee/logrus"
@@ -13,6 +14,8 @@ import (
 )
 
 func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (*opsee.GetMetricsResponse, error) {
+
+	log.Infof("received GetMetrics request: %v", in)
 	var res []*opsee.QueryResult
 	// TODO(dan) support relative start and end time alternative
 	if in.AbsoluteStartTime == nil {
@@ -20,6 +23,34 @@ func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (
 	}
 	if in.AbsoluteEndTime == nil {
 		return &opsee.GetMetricsResponse{Results: res}, fmt.Errorf("missing absolute_end_time")
+	}
+
+	agUnit := kdbutil.MILLISECONDS
+	agPeriod := int64(30000)
+	if in.Aggregation != nil {
+		switch in.Aggregation.Unit {
+		case "milliseconds":
+			agUnit = kdbutil.MILLISECONDS
+		case "seconds":
+			agUnit = kdbutil.MILLISECONDS
+		case "minutes":
+			agUnit = kdbutil.MINUTES
+		case "hours":
+			agUnit = kdbutil.HOURS
+		case "days":
+			agUnit = kdbutil.DAYS
+		case "weeks":
+			agUnit = kdbutil.WEEKS
+		case "months":
+			agUnit = kdbutil.MONTHS
+		case "years":
+			agUnit = kdbutil.YEARS
+		default:
+			return &opsee.GetMetricsResponse{Results: res}, fmt.Errorf("invalid aggregation unit")
+		}
+		if in.Aggregation.Period > 0 {
+			agPeriod = in.Aggregation.Period
+		}
 	}
 
 	// check start and end times
@@ -38,6 +69,7 @@ func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (
 	qb := builder.NewQueryBuilder().SetAbsoluteStart(ast).SetAbsoluteEnd(aet)
 	for _, m := range in.Metrics {
 		if m.Name == "" {
+			log.Warn("query missing metric name")
 			continue
 		}
 		nm := builder.NewQueryMetric(m.Name)
@@ -50,8 +82,19 @@ func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (
 		if len(tags) > 0 {
 			nm.AddTags(tags)
 		}
+
+		if in.Aggregation != nil {
+			switch m.Statistic {
+			case "avg":
+				nm.AddAggregator(builder.CreateAverageAggregator(int(agPeriod), agUnit))
+			default:
+				continue
+			}
+		}
+
 		qb.AddRealMetric(nm)
 	}
+	log.Infof("Querying with %v", qb)
 
 	// execute the query
 	qr, err := s.kclient.Query(qb)
@@ -63,6 +106,7 @@ func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (
 					Metrics: []*schema.Metric{},
 					Groups:  []*opsee.Group{},
 				}
+
 				// get tags to set in basicproto metric
 				var tags []*schema.Tag
 				for k, v := range result.Tags {
