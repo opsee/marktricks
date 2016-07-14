@@ -20,6 +20,7 @@ message Group {
 message Aggregation {
     string unit = 1; // graphql doesn't support enums yet (milliseconds, seconds, minutes, hours, days, weeks, months, years)
     int64 period = 2; 
+    string type = 3; // sum, avg, min, max
 }
 
 message QueryResult {
