@@ -26,7 +26,7 @@ func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (
 	}
 
 	agUnit := kdbutil.MILLISECONDS
-	agPeriod := int64(30000)
+	agPeriod := int64(1)
 	if in.Aggregation != nil {
 		switch in.Aggregation.Unit {
 		case "milliseconds":
@@ -54,14 +54,21 @@ func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (
 	}
 
 	// check start and end times
-	st := in.AbsoluteStartTime.Millis()
-	et := in.AbsoluteEndTime.Millis()
-	if st > et || st < 0 || et < 0 || st == et {
+	st, err := in.AbsoluteStartTime.Value()
+	if err != nil {
+		return &opsee.GetMetricsResponse{Results: res}, fmt.Errorf("invalid absolute_start_time")
+	}
+	et, err := in.AbsoluteEndTime.Value()
+	if err != nil {
+		return &opsee.GetMetricsResponse{Results: res}, fmt.Errorf("invalid absolute_end_time")
+	}
+	ast, aok := st.(time.Time)
+	aet, eok := et.(time.Time)
+
+	if !aok || !eok {
 		log.Warnf("Invalid start_time: %d or end_time: %d", st, et)
 		return &opsee.GetMetricsResponse{Results: res}, fmt.Errorf("invalid absolute_start_time or absolute_end_time")
 	}
-	ast := time.Unix(in.AbsoluteStartTime.Millis(), 0)
-	aet := time.Unix(in.AbsoluteEndTime.Millis(), 0)
 
 	// convert basicproto metrics to client querymetrics
 	// TODO(dan) use protobuf when rewriting client or add protobuf to match this client lib
