@@ -1,18 +1,68 @@
 package service
 
 import (
+	"bytes"
+	"encoding/json"
+	"errors"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"time"
 
-	"github.com/dan-compton/go-kairosdb/builder"
 	kdbutil "github.com/dan-compton/go-kairosdb/builder/utils"
+
+	opsee_types "github.com/opsee/protobuf/opseeproto/types"
+
+	"github.com/dan-compton/go-kairosdb/builder"
+	"github.com/hashicorp/go-multierror"
 	"github.com/opsee/basic/schema"
 	opsee "github.com/opsee/basic/service"
 	log "github.com/opsee/logrus"
-	opsee_types "github.com/opsee/protobuf/opseeproto/types"
 	"golang.org/x/net/context"
 )
 
+const KdbQueryPath = "api/v1/datapoints/query"
+
+// New endpoint to replace GetMetrics
+func (s *service) QueryMetrics(ctx context.Context, in *opsee.QueryMetricsRequest) (*opsee.QueryMetricsResponse, error) {
+	log.Infof("received GetMetrics request: %v", in)
+
+	b, err := json.Marshal(in)
+	if err != nil {
+		return nil, err
+	}
+
+	hreq, err := http.NewRequest("POST", fmt.Sprintf("%s/%s", s.kdbAddress, KdbQueryPath), bytes.NewBuffer(b))
+	hreq.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(hreq)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	gr := &opsee.QueryMetricsResponse{}
+	err = json.Unmarshal(body, &gr)
+	if err != nil {
+		return nil, err
+	}
+
+	// handle errors field
+	if len(gr.Errors) > 0 {
+		var errs error
+		for _, e := range gr.Errors {
+			errs = multierror.Append(errs, errors.New(e))
+		}
+		return nil, errs
+	}
+
+	return gr, nil
+}
+
+// Legacy, here for compatibility
+// TODO: remove
 func (s *service) GetMetrics(ctx context.Context, in *opsee.GetMetricsRequest) (*opsee.GetMetricsResponse, error) {
 	log.Infof("received GetMetrics request: %v", in)
 	var res []*opsee.QueryResult

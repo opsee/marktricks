@@ -31,7 +31,6 @@ message User {
 	opsee.types.Timestamp created_at = 10 [(gogoproto.moretags) = "db:\"created_at\""];
 	opsee.types.Timestamp updated_at = 11 [(gogoproto.moretags) = "db:\"updated_at\""];
 	string status = 12 [(gogoproto.moretags) = "token:\"status\" db:\"status\""];
-	opsee.types.Permission old_perms = 13;
 	bool has_password = 14 [(gogoproto.jsontag) = "has_password", (gogoproto.moretags) = "db:\"has_password\""];
 	UserFlags perms = 15 [(gogoproto.moretags) = "db:\"perms\" token:\"perms\""];
 }
@@ -49,12 +48,18 @@ message Team {
 	string id = 1;
 	string name = 2 [(gogoproto.moretags) = "db:\"name\""];
 	string subscription = 3 [(gogoproto.moretags) = "db:\"subscription\""];
-	CreditCardInfo creditCardInfo = 4;
+	CreditCardInfo credit_card_info = 4;
 	repeated Invoice invoices = 5;
 	repeated User users = 6;
 	string stripe_customer_id = 7 [(gogoproto.moretags) = "db:\"stripe_customer_id\""];
 	string stripe_subscription_id = 8 [(gogoproto.moretags) = "db:\"stripe_subscription_id\""];
 	int32 subscription_quantity = 9 [(gogoproto.moretags) = "db:\"subscription_quantity\""];
+	string subscription_status = 10 [(gogoproto.moretags) = "db:\"subscription_status\""];
+	string subscription_plan = 11 [(gogoproto.moretags) = "db:\"subscription_plan\""];
+	Invoice next_invoice = 12;
+	opsee.types.Timestamp subscription_trial_start = 13;
+	opsee.types.Timestamp subscription_trial_end = 14;
+	int32 subscription_plan_amount = 15;
 }
 
 message Invoice {
@@ -75,7 +80,11 @@ message Invite {
 	int32 id = 1;
 	string email = 2;
 	string name = 3;
-	string customer_id = 4;
-	opsee.types.Permission old_perms = 5;
+	string customer_id = 4 [(gogoproto.moretags) = "db:\"customer_id\""];
 	UserFlags perms = 6;
+	opsee.types.Timestamp created_at = 7 [(gogoproto.moretags) = "db:\"created_at\""];
+	opsee.types.Timestamp updated_at = 8 [(gogoproto.moretags) = "db:\"updated_at\""];
+	string referrer = 9;
+	bool claimed = 10;
+	bool activated = 11;
 }
