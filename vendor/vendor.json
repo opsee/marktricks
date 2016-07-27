@@ -76,6 +76,12 @@
 			"revisionTime": "2016-06-14T22:31:40Z"
 		},
 		{
+			"checksumSHA1": "2bstKAF87xM849Og0V92uGUSj7s=",
+			"path": "github.com/golang/protobuf/ptypes/struct",
+			"revision": "0c1f6d65b5a189c2250d10e71a5506f06f9fa0a0",
+			"revisionTime": "2016-06-14T22:31:40Z"
+		},
+		{
 			"checksumSHA1": "ftnii31JY1Sbvq+qLECUUObVPvM=",
 			"origin": "github.com/opsee/basic/vendor/github.com/graphql-go/graphql",
 			"path": "github.com/graphql-go/graphql",
@@ -144,6 +150,18 @@
 			"path": "github.com/graphql-go/graphql/language/visitor",
 			"revision": "242a5ff11a379ac3c9e6e481201b34057822565f",
 			"revisionTime": "2016-06-28T22:01:51Z"
+		},
+		{
+			"checksumSHA1": "cdOCt0Yb+hdErz8NAQqayxPmRsY=",
+			"path": "github.com/hashicorp/errwrap",
+			"revision": "7554cd9344cec97297fa6649b055a8c98c2a1e55",
+			"revisionTime": "2014-10-28T05:47:10Z"
+		},
+		{
+			"checksumSHA1": "lrSl49G23l6NhfilxPM0XFs5rZo=",
+			"path": "github.com/hashicorp/go-multierror",
+			"revision": "d30f09973e19c1dfcd120b2d9c4f168e68d6b5d5",
+			"revisionTime": "2015-09-16T20:57:42Z"
 		},
 		{
 			"checksumSHA1": "kScfgLuo9huuZ2v7Lulyy7lHDZc=",
@@ -263,68 +281,68 @@
 		{
 			"checksumSHA1": "JLhed1lAnZ3eAvzYte77yd3V1b4=",
 			"path": "github.com/opsee/basic/grpcutil",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
-			"checksumSHA1": "vreiR7fwMfm353HGIkgL94ijeq4=",
+			"checksumSHA1": "UV5DfBijv5ayNuoN6Ez4nV7+K/A=",
 			"path": "github.com/opsee/basic/schema",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
 			"checksumSHA1": "FkjxadUmA3jQE9gNzDheJ5axvyw=",
 			"path": "github.com/opsee/basic/schema/aws/autoscaling",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
 			"checksumSHA1": "fySg/HSrU9fwCAsXLwt4fsm0imc=",
 			"path": "github.com/opsee/basic/schema/aws/cloudwatch",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
 			"checksumSHA1": "+vaNkzRGuv1YFreB47sAf9h1xlA=",
 			"path": "github.com/opsee/basic/schema/aws/credentials",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
 			"checksumSHA1": "srjU1ESiQMdYhe8RsQeIaEAF27k=",
 			"path": "github.com/opsee/basic/schema/aws/ec2",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
-			"checksumSHA1": "3Vy2baXYVara8ivNlOHj8fpZcXk=",
+			"checksumSHA1": "BQ2q/cSf6UjXo0/wFPFABJ40qb4=",
 			"path": "github.com/opsee/basic/schema/aws/ecs",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
 			"checksumSHA1": "9JoTo+10PvSF5YcdZahA35SnCUk=",
 			"path": "github.com/opsee/basic/schema/aws/elb",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
 			"checksumSHA1": "lfQKxPHPkM/+3PDuhT4NnVGKUgM=",
 			"path": "github.com/opsee/basic/schema/aws/rds",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
-			"checksumSHA1": "3OoBbFOAaxeXrvYpetwjRouo9cM=",
+			"checksumSHA1": "2j4NW1d2bOw7NcE0Q/bxg8wYUAw=",
 			"path": "github.com/opsee/basic/service",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
 			"checksumSHA1": "ob2JJB8dQ4Z4nYLP7W8G4BUtIHo=",
 			"path": "github.com/opsee/basic/tp",
-			"revision": "4d30b4ed822f652e0958d8f864f581cd75c107d4",
-			"revisionTime": "2016-07-14T18:25:07Z"
+			"revision": "6d958e1ed8960f791017e721295a5f92549534c5",
+			"revisionTime": "2016-07-27T01:18:50Z"
 		},
 		{
 			"checksumSHA1": "4SRqRNsZ2S+7ZXFbHn/4NxrflLU=",
@@ -334,24 +352,51 @@
 		},
 		{
 			"checksumSHA1": "Oc5/hmIbwL/aWBo72SigCzA82JE=",
-			"origin": "github.com/opsee/basic/vendor/github.com/opsee/protobuf/opseeproto",
 			"path": "github.com/opsee/protobuf/opseeproto",
-			"revision": "242a5ff11a379ac3c9e6e481201b34057822565f",
-			"revisionTime": "2016-06-28T22:01:51Z"
+			"revision": "52c86fd0b6cd5b4f528cee904ad79ea4afbc3505",
+			"revisionTime": "2016-07-26T18:01:06Z"
 		},
 		{
-			"checksumSHA1": "jJ2NiFmmcAl8gge4PW0MwxDIK5I=",
-			"origin": "github.com/opsee/basic/vendor/github.com/opsee/protobuf/opseeproto/types",
+			"checksumSHA1": "haQwx5jDhyDpCBViVSiq+McsHw4=",
 			"path": "github.com/opsee/protobuf/opseeproto/types",
-			"revision": "242a5ff11a379ac3c9e6e481201b34057822565f",
-			"revisionTime": "2016-06-28T22:01:51Z"
+			"revision": "52c86fd0b6cd5b4f528cee904ad79ea4afbc3505",
+			"revisionTime": "2016-07-26T18:01:06Z"
 		},
 		{
-			"checksumSHA1": "Jvk8GORIFQWlvhuaf42C+XmjiOM=",
-			"origin": "github.com/opsee/basic/vendor/github.com/opsee/protobuf/plugin/graphql/scalars",
+			"checksumSHA1": "T4VPZma7pi1abYtq32e31mvdzj4=",
 			"path": "github.com/opsee/protobuf/plugin/graphql/scalars",
-			"revision": "242a5ff11a379ac3c9e6e481201b34057822565f",
-			"revisionTime": "2016-06-28T22:01:51Z"
+			"revision": "52c86fd0b6cd5b4f528cee904ad79ea4afbc3505",
+			"revisionTime": "2016-07-26T18:01:06Z"
+		},
+		{
+			"checksumSHA1": "EsfIKo3y9MYHEstEGww8j5syZF8=",
+			"path": "github.com/shurcooL/go-goon",
+			"revision": "7013555098e0efb77afd1b0c5d3e64de1e7f4265",
+			"revisionTime": "2016-06-23T06:09:00Z"
+		},
+		{
+			"checksumSHA1": "Gmkf4ymM0ZNSYiIVEsLRgFavgII=",
+			"path": "github.com/shurcooL/go/parserutil",
+			"revision": "5b1586165580226e228ec40f9bbe608b14bf8a88",
+			"revisionTime": "2016-07-24T17:44:11Z"
+		},
+		{
+			"checksumSHA1": "5rstWtvfK2TcC92RFOq72xlzmXg=",
+			"path": "github.com/shurcooL/go/printerutil",
+			"revision": "5b1586165580226e228ec40f9bbe608b14bf8a88",
+			"revisionTime": "2016-07-24T17:44:11Z"
+		},
+		{
+			"checksumSHA1": "KZPGEMLUjs0QkDXXUybswv1o8+A=",
+			"path": "github.com/shurcooL/go/reflectfind",
+			"revision": "5b1586165580226e228ec40f9bbe608b14bf8a88",
+			"revisionTime": "2016-07-24T17:44:11Z"
+		},
+		{
+			"checksumSHA1": "Yy1dXdIJMXIvxbxVw6ViYZDoZuU=",
+			"path": "github.com/shurcooL/go/reflectsource",
+			"revision": "5b1586165580226e228ec40f9bbe608b14bf8a88",
+			"revisionTime": "2016-07-24T17:44:11Z"
 		},
 		{
 			"checksumSHA1": "E1899TNqCHhCtr6+joW4YEldRuE=",

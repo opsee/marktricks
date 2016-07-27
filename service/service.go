@@ -16,13 +16,15 @@ import (
 )
 
 type service struct {
-	kclient client.Client
+	kclient    client.Client
+	kdbAddress string
 }
 
 func New(kcConn string) (*service, error) {
 	kc := client.NewHttpClient(kcConn)
 	s := &service{
-		kclient: kc,
+		kclient:    kc,
+		kdbAddress: kcConn,
 	}
 	return s, nil
 }
